@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 
 class QuizQuestion extends Component {
   render() {
@@ -15,6 +16,13 @@ class QuizQuestion extends Component {
       </main>
     )
   }
+}
+
+QuizQuestion.propTypes = {
+  quiz_question: PropTypes.shape({
+    instruction_text: PropTypes.string.isRequired,
+    answer_options: PropTypes.array.isRequired,
+  }).isRequired,
 }
 
 export default QuizQuestion;
