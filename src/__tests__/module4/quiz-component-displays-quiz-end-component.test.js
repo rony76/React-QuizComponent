@@ -56,10 +56,8 @@ function yallReadyForThis() {
 
   let ast = babylon.parse(file, { sourceType: "module", plugins: ["jsx"] })
 
-  let class_declaration_count = 0;
-  let found_const = 0;
-  let is_quiz_end_count = 0;
-
+  let isQuizEndFound = false;
+  
   ast['program']['body'].forEach(element => {
     if (element.type == 'ClassDeclaration') {
       if (element.id.name == 'Quiz') {
@@ -68,10 +66,9 @@ function yallReadyForThis() {
             if (el.key.name == 'render') {
               el.body.body.forEach(el2 => {
                 if (el2.kind == 'const') {
-                  found_const = found_const + 1
                   el2.declarations.forEach(el3 => {
                     if (el3.id && el3.id.name == 'isQuizEnd') {
-                      is_quiz_end_count = is_quiz_end_count + 1
+                      isQuizEndFound = true;
                     }
                   })
                 }
@@ -80,12 +77,8 @@ function yallReadyForThis() {
           }
         })
       }
-      class_declaration_count = class_declaration_count + 1
     }
   })
-  if (found_const == 1 && is_quiz_end_count == 1) {
-    return true
-  } else {
-    return false
-  }
+  
+  return isQuizEndFound;
 }
